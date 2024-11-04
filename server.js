@@ -7,8 +7,6 @@
  * https://www.senecapolytechnic.ca/about/policies/academic-integrity-policy.html
  *
  * Name: _______Hin Lum Lee__________ Student ID: ___132957234______ Date: ___04-Oct-2024_______
- *
- * Deployment: web-assignment4-oowjg4ndl-khaomankais-projects.vercel.app
  * 
  * Domains: https://web-assignment4-psi.vercel.app
  ********************************************************************************/
