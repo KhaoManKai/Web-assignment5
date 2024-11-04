@@ -31,13 +31,13 @@ projectData
     console.error("Error initializing projects data:", err);
   });
 
-app.get("/", (_, res) => {
-  res.sendFile(path.join(__dirname, "views", "home.html"));
-});
-
-app.get("/about", (_, res) => {
-  res.sendFile(path.join(__dirname, "views", "about.html"));
-});
+  app.get("/", (_, res) => {
+    res.render("home");
+  });
+  
+  app.get("/about", (_, res) => {
+    res.render("about");
+  });
 
 app.get("/solutions/projects", (req, res) => {
   const sector = req.query.sector;
@@ -65,5 +65,8 @@ app.get("/solutions/projects/:id", (req, res) => {
 });
 
 app.use((_, res) => {
-  res.status(404).sendFile(path.join(__dirname, "views", "404.html"));
+  res.status(404).render("404");
 });
+
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
