@@ -8,6 +8,9 @@
  *
  * Name: _______Hin Lum Lee__________ Student ID: ___132957234______ Date: ___04-Oct-2024_______
  *
+ * Deployment: web-assignment3-ipamk8jqd-khaomankais-projects.vercel.app
+ * 
+ * Domains: https://web-assignment3-topaz.vercel.app
  ********************************************************************************/
 
 const express = require("express");
@@ -16,10 +19,11 @@ const projectData = require("./modules/projects");
 const app = express();
 const HTTP_PORT = process.env.PORT || 8080;
 
-// my info
-const name = "Hin Lum Lee";
-const studentId = "132957234";
+
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
 app.use(express.static('public'));
+
 projectData
   .initialize()
   .then(() => {
@@ -40,33 +44,49 @@ projectData
   });
 
 app.get("/solutions/projects", (req, res) => {
-  const sector = req.query.sector;
-  
-  if (sector) {
-    projectData
-      .getProjectsBySector(sector)
-      .then((projects) => res.json(projects))
-      .catch((err) => res.status(404).json({ error: err }));
-  } else {
-    projectData
-      .getAllProjects()
-      .then((projects) => res.json(projects))
-      .catch((err) => res.status(404).json({ error: err }));
-  }
+    const sector = req.query.sector;
+    if (sector) {
+        projectData
+            .getProjectsBySector(sector)
+            .then((projects) => {
+                res.render("projects", { projects: projects });
+            })
+            .catch((err) => {
+                res.status(404).render("404", {
+                    message: "Couldn't find projects for the specified sector"
+                });
+            });
+    } else {
+        projectData
+            .getAllProjects()
+            .then((projects) => {
+                res.render("projects", { projects: projects });
+            })
+            .catch((err) => {
+                res.status(404).render("404", {
+                    message: "Couldn't find any projects"
+                });
+            });
+    }
 });
 
 app.get("/solutions/projects/:id", (req, res) => {
   const id = parseInt(req.params.id);
   
   projectData
-    .getProjectById(id)
-    .then((project) => res.json(project))
-    .catch((err) => res.status(404).json({ error: err }));
+      .getProjectById(id)
+      .then((project) => {
+          res.render("project", { project: project });
+      })
+      .catch((err) => {
+          res.status(404).render("404", {
+              message: "Unable to find the requested project"
+          });
+      });
 });
 
 app.use((_, res) => {
-  res.status(404).render("404");
+  res.status(404).render("404", {
+    message: "The page doesn't exist"
 });
-
-app.set('view engine', 'ejs');
-app.set('views', __dirname + '/views');
+});
