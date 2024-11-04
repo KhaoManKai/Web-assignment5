@@ -1,7 +1,7 @@
 {
-  "name": "assignment-3",
+  "name": "assignment-4",
   "version": "1.0.0",
-  "description": "WEB322 Assignment3",
+  "description": "WEB322 Assignment4",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,8 +10,8 @@
     "prettier": "prettier --write \"*.{js,data}\"",
     "check": "npm run eslint",
     "server": "parcel src/index.html",
-    "zip": "bestzip assignment-3.zip *",
-    "clean": "rimraf assignment-3.zip .parcel-cache dist",
+    "zip": "bestzip assignment-4.zip *",
+    "clean": "rimraf assignment-4.zip .parcel-cache dist",
     "prepare-submission": "run-s prettier check zip",
     "tw:build": "tailwindcss -i ./css/tailwind.css -o ./css/main.css --watch"
   },
