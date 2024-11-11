@@ -8,16 +8,22 @@
   ],
   "routes": [
     {
+      "src": "/css/(.*)",
+      "dest": "/public/css/$1"
+    },
+    {
       "src": "/solutions/projects/(.*)",
-      "dest": "server.js"
+      "dest": "/server.js"
     },
     {
       "src": "/solutions/projects",
-      "dest": "server.js"
+      "dest": "/server.js"
     },
     {
       "src": "/(.*)",
-      "dest": "server.js"
+      "dest": "/server.js"
     }
-  ]
+  ],
+  "buildCommand": "npm run build",
+  "installCommand": "npm install"
 }
