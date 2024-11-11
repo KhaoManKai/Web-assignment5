@@ -4,6 +4,10 @@
     {
       "src": "server.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "public/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -12,18 +16,16 @@
       "dest": "/public/css/$1"
     },
     {
-      "src": "/solutions/projects/(.*)",
-      "dest": "/server.js"
+      "src": "/image/(.*)",
+      "dest": "/public/image/$1"
     },
     {
-      "src": "/solutions/projects",
+      "src": "/solutions/projects/(.*)",
       "dest": "/server.js"
     },
     {
       "src": "/(.*)",
       "dest": "/server.js"
     }
-  ],
-  "buildCommand": "npm run build",
-  "installCommand": "npm install"
+  ]
 }
