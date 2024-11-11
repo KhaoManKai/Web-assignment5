@@ -13,7 +13,7 @@
     "zip": "bestzip assignment-4.zip *",
     "clean": "rimraf assignment-4.zip .parcel-cache dist",
     "prepare-submission": "run-s prettier check zip",
-    "tw:build": "tailwindcss -i ./css/tailwind.css -o ./css/main.css --watch"
+    "tw:build": "tailwindcss -i ./css/tailwind.css -o ./public/css/main.css --watch"
   },
   "author": "Hin Lum Lee",
   "license": "ISC",
