@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
+    "build": "tailwindcss -i ./css/tailwind.css -o ./public/css/main.css", 
     "eslint": "eslint server.js",
     "prettier": "prettier --write \"*.{js,data}\"",
     "check": "npm run eslint",
@@ -32,4 +33,4 @@
     "rimraf": "^6.0.1",
     "tailwindcss": "^3.4.13"
   }
-}
+ }
