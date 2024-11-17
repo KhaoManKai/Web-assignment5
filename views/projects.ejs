@@ -8,9 +8,7 @@
 </head>
 <body>
     <%- include('partials/navbar', {page: '/solutions/projects'}) %>
-
     <div class="container mx-auto">
-        <!-- Hero section with filter buttons -->
         <div class="hero bg-base-200">
             <div class="hero-content text-center">
                 <div>
@@ -24,7 +22,6 @@
                 </div>
             </div>
         </div>
-
         <div class="overflow-x-auto mt-8">
             <table class="table w-full">
                 <thead>
@@ -40,14 +37,14 @@
                         <tr>
                             <td><%= project.title %></td>
                             <td>
-                                <a href="/solutions/projects?sector=<%= project.sector.toLowerCase() %>" 
+                                <a href="/solutions/projects?sector=<%= project.Sector.sector_name.toLowerCase() %>"
                                    class="btn btn-sm">
-                                    <%= project.sector %>
+                                    <%= project.Sector.sector_name %>
                                 </a>
                             </td>
                             <td><%= project.summary_short %></td>
                             <td>
-                                <a href="/solutions/projects/<%= project.id %>" 
+                                <a href="/solutions/projects/<%= project.id %>"
                                    class="btn btn-sm">
                                     details
                                 </a>
