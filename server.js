@@ -8,7 +8,7 @@
  *
  * Name: _______Hin Lum Lee__________ Student ID: ___132957234______ Date: ___16-Nov-2024_______
  *
- * Domains: https://web-assignment4-six.vercel.app
+ * Domains: https://web-assignment5-six.vercel.app
  ********************************************************************************/
 
 const express = require("express");
@@ -43,44 +43,43 @@ app.get("/about", (_, res) => {
 });
 
 app.get("/solutions/projects", (req, res) => {
-    const sector = req.query.sector;
-    if (sector) {
-        projectData
-            .getProjectsBySector(sector)
-            .then((projects) => {
-                res.render("projects", { projects: projects });
-            })
-            .catch((err) => {
-                res.status(404).render("404", {
-                    message: "Couldn't find projects for the specified sector"
-                });
-            });
-    } else {
-        projectData
-            .getAllProjects()
-            .then((projects) => {
-                res.render("projects", { projects: projects });
-            })
-            .catch((err) => {
-                res.status(404).render("404", {
-                    message: "Couldn't find any projects"
-                });
-            });
-    }
+  const sector = req.query.sector;
+  if (sector) {
+      projectData
+          .getProjectsBySector(sector)
+          .then((projects) => {
+              res.render("projects", { projects: projects });
+          })
+          .catch((err) => {
+              res.render("projects", { projects: [] });
+          });
+  } else {
+      projectData
+          .getAllProjects()
+          .then((projects) => {
+              res.render("projects", { projects: projects });
+          })
+          .catch((err) => {
+              res.render("projects", { projects: [] });
+          });
+  }
 });
 
 app.get("/solutions/projects/:id", (req, res) => {
-    const id = parseInt(req.params.id);
-    projectData
-        .getProjectById(id)
-        .then((project) => {
-            res.render("project", { project: project });
-        })
-        .catch((err) => {
-            res.status(404).render("404", {
-                message: "Unable to find the requested project"
-            });
-        });
+  const id = parseInt(req.params.id);
+  projectData
+      .getProjectById(id)
+      .then((project) => {
+          if (!project) {
+              throw new Error("Project not found");
+          }
+          res.render("project", { project: project });
+      })
+      .catch((err) => {
+          res.status(404).render("404", {
+              message: "Unable to find the requested project"
+          });
+      });
 });
 
 app.get("/solutions/addProject", (req, res) => {

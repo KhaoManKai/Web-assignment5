@@ -12,7 +12,6 @@ let sequelize = new Sequelize(process.env.PGDATABASE, process.env.PGUSER, proces
     query: { raw: true }
 });
 
-
 const Sector = sequelize.define('Sector', {
     id: {
         type: Sequelize.INTEGER,
@@ -24,7 +23,6 @@ const Sector = sequelize.define('Sector', {
     createdAt: false,
     updatedAt: false
 });
-
 
 const Project = sequelize.define('Project', {
     id: {
@@ -46,7 +44,6 @@ const Project = sequelize.define('Project', {
 
 Project.belongsTo(Sector, {foreignKey: 'sector_id'});
 
-
 function initialize() {
     return new Promise((resolve, reject) => {
         sequelize.sync()
@@ -61,11 +58,7 @@ function getAllProjects() {
             include: [Sector]
         })
         .then(projects => {
-            if (projects.length > 0) {
-                resolve(projects);
-            } else {
-                reject("No projects found");
-            }
+            resolve(projects);
         })
         .catch(err => reject("Error retrieving projects"));
     });
@@ -73,15 +66,16 @@ function getAllProjects() {
 
 function getProjectById(projectId) {
     return new Promise((resolve, reject) => {
-        Project.findAll({
+        Project.findOne({  
             include: [Sector],
             where: {
                 id: projectId
-            }
+            },
+            raw: false 
         })
-        .then(projects => {
-            if (projects.length > 0) {
-                resolve(projects[0]);
+        .then(project => {
+            if (project) {
+                resolve(project);
             } else {
                 reject("Unable to find requested project");
             }
@@ -111,16 +105,6 @@ function getProjectsBySector(sector) {
     });
 }
 
-// Get all sectors
-function getAllSectors() {
-    return new Promise((resolve, reject) => {
-        Sector.findAll()
-            .then(sectors => resolve(sectors))
-            .catch(err => reject("Unable to get sectors"));
-    });
-}
-
-// Add a new project
 function addProject(projectData) {
     return new Promise((resolve, reject) => {
         Project.create(projectData)
@@ -148,7 +132,15 @@ function deleteProject(id) {
         .catch(err => reject(err.errors[0].message));
     });
 }
-
+function getAllSectors() {
+    return new Promise((resolve, reject) => {
+        Sector.findAll()
+            .then(sectors => {
+                resolve(sectors);
+            })
+            .catch(err => reject("Unable to get sectors"));
+    });
+}
 module.exports = {
     initialize,
     getAllProjects,
@@ -157,5 +149,8 @@ module.exports = {
     getAllSectors,
     addProject,
     editProject,
-    deleteProject
+    deleteProject,
+    sequelize,
+    Sector,
+    Project
 };
