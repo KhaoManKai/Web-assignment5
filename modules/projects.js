@@ -9,7 +9,9 @@ let sequelize = new Sequelize(process.env.PGDATABASE, process.env.PGUSER, proces
     dialectOptions: {
         ssl: { rejectUnauthorized: false }
     },
-    query: { raw: true }
+    query: { 
+        nest: true
+    }
 });
 
 const Sector = sequelize.define('Sector', {
@@ -47,8 +49,36 @@ Project.belongsTo(Sector, {foreignKey: 'sector_id'});
 function initialize() {
     return new Promise((resolve, reject) => {
         sequelize.sync()
-            .then(() => resolve())
-            .catch((err) => reject("Unable to sync the database"));
+            .then(async () => {
+                try {
+                    const sectorCount = await Sector.count();
+                    if (sectorCount === 0) {
+                        await Sector.bulkCreate([
+                            { id: 1, sector_name: 'Land' },
+                            { id: 2, sector_name: 'Industry' },
+                            { id: 3, sector_name: 'Transportation' },
+                            { id: 4, sector_name: 'Electricity' },
+                            { id: 5, sector_name: 'Agriculture' }
+                        ]);
+
+                        await Project.bulkCreate([
+                            {   
+                                sector_id: 1,
+                                title: "Abandoned Farmland Restoration",
+                                feature_img_url: "https://drawdown.org/sites/default/files/solutions/solution_farmlandrestoration01.jpg",
+                                summary_short: "Restoration can bring degraded farmland back into productivity and sequester carbon in the process.",
+                                intro_short: "Around the world, many farmers are abandoning previously cultivated or grazed lands...",
+                                impact: "Worldwide, millions of hectares of farmland have been abandoned due to land degradation...",
+                                original_source_url: "https://drawdown.org/solutions/abandoned-farmland-restoration"
+                            },
+                        ]);
+                    }
+                    resolve();
+                } catch(err) {
+                    reject("Unable to sync the database: " + err);
+                }
+            })
+            .catch((err) => reject("Unable to sync the database: " + err));
     });
 }
 

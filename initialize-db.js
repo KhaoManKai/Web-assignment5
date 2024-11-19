@@ -1,11 +1,10 @@
 require('dotenv').config();
-const db = require('./modules/projects');
+const { sequelize, Sector, Project } = require('./modules/projects');
 
-db.sequelize.sync({ force: true })
+sequelize.sync({ force: true })
     .then(async () => {
         try {
-            // Add all sectors
-            await db.Sector.bulkCreate([
+            await Sector.bulkCreate([
                 { id: 1, sector_name: 'Land' },
                 { id: 2, sector_name: 'Industry' },
                 { id: 3, sector_name: 'Transportation' },
@@ -13,8 +12,7 @@ db.sequelize.sync({ force: true })
                 { id: 5, sector_name: 'Agriculture' }
             ]);
             
-            // Add all projects
-            await db.Project.bulkCreate([
+            await Project.bulkCreate([
                 {   
                     sector_id: 1,
                     title: "Abandoned Farmland Restoration",

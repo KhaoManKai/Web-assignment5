@@ -134,7 +134,6 @@ app.get("/solutions/deleteProject/:id", (req, res) => {
             res.render("500", { message: `Error deleting project: ${err}` });
         });
 });
-
 app.use((_, res) => {
     res.status(404).render("404", {
         message: "The page doesn't exist"
